@@ -50,9 +50,9 @@ services:
       REDIS_DB: 0
       EMAIL_DRIVER: local
       EMAIL_SENDER: your-email@example.com
-      AWS_SES_ACCESS_KEY:
-      AWS_SES_SECRET_KEY:
-      AWS_REGION:
+      AWS_SES_ACCESS_KEY: ""
+      AWS_SES_SECRET_KEY: ""
+      AWS_REGION: ""
     depends_on:
       - database
       - redis
