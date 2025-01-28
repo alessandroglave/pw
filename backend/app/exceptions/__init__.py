@@ -80,6 +80,13 @@ def closing_not_found_exception():
     )
 
 
+def user_not_found_exception():
+    return HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="User not found",
+    )
+
+
 def concurrent_exception():
     return HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,

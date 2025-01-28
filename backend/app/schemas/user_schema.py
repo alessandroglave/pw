@@ -24,3 +24,7 @@ class StaffSignupInput(UserSignupInput):
 class UserSignInInput(BaseModel):
     email: str
     password: str
+
+
+class UserResetPasswordInput(BaseModel):
+    email: str

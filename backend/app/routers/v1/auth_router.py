@@ -4,8 +4,18 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.constants import Roles
 from app.dependencies.authentication_dep import AuthenticationDep
-from app.exceptions import credentials_exception, email_exists_exception
-from app.schemas.user_schema import StaffSignupInput, UserSignInInput, UserSignupInput
+from app.exceptions import (
+    credentials_exception,
+    email_exists_exception,
+    user_not_found_exception,
+)
+from app.schemas.user_schema import (
+    StaffSignupInput,
+    UserResetPasswordInput,
+    UserSignInInput,
+    UserSignupInput,
+)
+from app.services.email_service import EmailService
 from app.services.role_service import RoleService
 from app.services.user_service import UserService
 from app.validators import BackofficeValidator
@@ -41,7 +51,38 @@ def signup(
         customer_role = role_service.create(Roles.CUSTOMER)
 
     user = user_service.create(payload, customer_role)
+
     return {"model": "User", "data": user}
+
+
+# Public route to let users to reset their password.
+# Simple password reset: it creates a new password and sends it to the provided email
+@router.post("/reset-password", status_code=200)
+def reset_password(
+    payload: UserResetPasswordInput,
+    user_service: UserServiceDep,
+):
+    user = user_service.get_by_email(payload.email)
+    if not user:
+        raise user_not_found_exception()
+
+    # creates a random password
+    new_password = user_service.create_password()
+
+    # logs password on console (for development purpose)
+    print("new password:" + new_password)
+
+    # updates user's password on database
+    user_service.reset_password(user, new_password)
+
+    # sends new password to the user
+    EmailService().send_email(
+        user.email,
+        "Password resettata",
+        "Come richiesto, la tua password è stata resettata. Utilizza la seguente password per accedere al tuo account: "
+        + new_password,
+    )
+    return {"model": "User", "data": {"success": True}}
 
 
 # Public route to let users to signin

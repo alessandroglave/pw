@@ -43,3 +43,9 @@ class UserRepository:
         self.db.add(user)
         self.db.commit()
         return self.get_by_email(user.email)
+
+    def reset_password(self, user: User, new_password: str):
+        user.password = new_password
+        self.db.commit()
+        self.db.refresh(user)
+        return True
