@@ -1,0 +1,13 @@
+.card {
+	@apply p-8 rounded-xl flex min-h-[300px] bg-cover bg-center relative overflow-hidden;
+
+	&::before {
+		@apply absolute w-full h-full inset-0;
+		content: "";
+		background: linear-gradient(
+			180deg,
+			rgba(0, 0, 0, 0) 35%,
+			rgba(0, 0, 0, 0.5)
+		);
+	}
+}

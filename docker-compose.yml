@@ -1,0 +1,79 @@
+version: "3.9"
+services:
+  # MySQL database
+  database:
+    image: mysql:8
+    container_name: pw_mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpassword"
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: "project_work"
+      MYSQL_USER: "username"
+      MYSQL_PASSWORD: "password"
+  # Redis (used for Mutex)
+  redis:
+    image: redis:latest
+    container_name: pw_redis
+    ports:
+      - 6379:6379
+    command: redis-server --requirepass redispassword --loglevel warning
+  # FastAPI Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pw_backend
+    ports:
+      - 8000:8000
+    restart: always
+    environment:
+      PYTHONPATH: /app
+      APP_NAME: "project-work"
+      APP_VERSION: "1.0.0"
+      DB_CONNECTION: "mysql"
+      DB_HOSTNAME: database
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: "project_work"
+      MYSQL_USER: "username"
+      MYSQL_PASSWORD: "password"
+      JWT_SECRET_KEY: "randomstring"
+      JWT_ALG: "HS256"
+      CREATE_STAFF_KEY: "randomstring"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_AUTH: "redispassword"
+      REDIS_DB: 0
+    depends_on:
+      - database
+      - redis
+  # Next.js Frontend 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_WEBSITE_URL: http://localhost:3000
+        NEXTAUTH_URL: http://localhost:3000
+        NEXT_PUBLIC_BACKEND_URL: http://0.0.0.0:8000
+        NEXTAUTH_SECRET: "randomstring"
+    container_name: pw_frontend
+    ports:
+      - 3000:3000
+    environment:
+      ALLOW_INDEXING: "false"
+      NEXT_PUBLIC_WEBSITE_URL: http://localhost:3000
+      NEXTAUTH_URL: http://localhost:3000
+      S2S_BACKEND_URL: http://backend:8000
+      NEXT_PUBLIC_BACKEND_URL: http://0.0.0.0:8000
+      NEXTAUTH_SECRET: "randomstring"
+    depends_on:
+      - backend
+
+volumes:
+  db:
+    driver: local

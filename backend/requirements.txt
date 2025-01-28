@@ -1,0 +1,15 @@
+ruff
+fastapi[standard]==0.115.7
+python-dotenv
+pymysql
+sqlalchemy==2.0.37
+pydantic-settings
+uvicorn[standard]
+databases[aiosqlite]
+python-jose
+python-multipart
+bcrypt
+cryptography
+mysql-connector-python
+redis
+alembic

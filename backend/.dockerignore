@@ -1,0 +1,14 @@
+.venv
+.env
+.coverage
+.gitignore
+.idea
+.mypy_cache
+.ruff_cache
+.vscode
+.git
+.DS_Store
+Dockerfile
+__pycache__
+**/__pycache__
+SQL.sql

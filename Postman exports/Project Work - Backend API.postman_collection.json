@@ -1,0 +1,805 @@
+{
+	"info": {
+		"_postman_id": "6baa9def-a695-4ed2-b51b-14d441c5c7a0",
+		"name": "Project Work - Backend API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18042098"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup (client)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"first_name\": \"Mario\",\n\"last_name\": \"Rossi\",\n\"email\": \"me@example.com\",\n\"password\": \"Password123!\",\n\"phone_number\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/auth/signup",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup (admin)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"first_name\": \"Super\",\n\"last_name\": \"Admin\",\n\"email\": \"superadmin@example.com\",\n\"password\": \"Password123!\",\n\"phone_number\": \"123\",\n\"type\": \"admin\", // \"admin\" o \"staff\"\n\"key\": \"{{CREATE_STAFF_KEY}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/auth/create-staff-member",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"auth",
+								"create-staff-member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin (client)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var body = pm.response.json();",
+									"pm.environment.set(\"BEARER_TOKEN\", body.data.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// è presente un post-request script che aggiorna la variabile\n// d'ambiente BEARER_TOKEN col valore ottenuto dalla risposta del server.\n// Una volta effettuata questa richiesta, le successive saranno effettuate\n// col token dell'utente\n{\n\"email\": \"me@example.com\",\n\"password\": \"Password123!\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/auth/token",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin (admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var body = pm.response.json();",
+									"pm.environment.set(\"BEARER_TOKEN\", body.data.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// è presente un post-request script che aggiorna la variabile\n// d'ambiente BEARER_TOKEN col valore ottenuto dalla risposta del server.\n// Una volta effettuata questa richiesta, le successive saranno effettuate\n// col token dell'utente\n{\n\"email\": \"superadmin@example.com\",\n\"password\": \"Password123!\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/auth/token",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/auth/me",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Public - Rooms",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BE_URL}}/rooms",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BE_URL}}/rooms/1",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"rooms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search availability",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BE_URL}}/rooms/available-rooms?persons=5&from_date=2025-02-01&to_date=2025-02-03",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"rooms",
+								"available-rooms"
+							],
+							"query": [
+								{
+									"key": "persons",
+									"value": "5"
+								},
+								{
+									"key": "from_date",
+									"value": "2025-02-01"
+								},
+								{
+									"key": "to_date",
+									"value": "2025-02-03"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reserved - users with admin or staff role",
+			"item": [
+				{
+					"name": "Reservation: List reservations by day",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/day?day=2025-02-01",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"day"
+							],
+							"query": [
+								{
+									"key": "day",
+									"value": "2025-02-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: Create Guest Reservation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"nome\",\n    \"last_name\": \"cognome\",\n    \"email\": \"email@example.com\",\n    \"phone_number\": \"111\",\n    \"room_id\": 1,\n    \"from_date\": \"2025-02-07\",\n    \"to_date\": \"2025-02-08\",\n    \"persons\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/guest",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/1",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: View by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/1",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: Edit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"room_id\": 1,\n    \"from_date\": \"2025-02-03\",\n    \"to_date\": \"2025-02-04\",\n    \"persons\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/1",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Closings: List closings from_date",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/closings?from_date=2025-01-08",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"closings"
+							],
+							"query": [
+								{
+									"key": "from_date",
+									"value": "2025-01-08"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Closings: Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"from_date\": \"2025-12-24\",\n    \"to_date\": \"2025-12-25\",\n    \"reason\": \"Natale\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/closings",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"closings"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Closings: Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/closings/1",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"closings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reserved - users with client role",
+			"item": [
+				{
+					"name": "Reservation: Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"room_id\": 1,\n    \"from_date\": \"2025-02-01\",\n    \"to_date\": \"2025-02-03\",\n    \"persons\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: List user's reservations",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/my",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/1",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: View by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/1",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation: Edit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BEARER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"room_id\": 1,\n    \"from_date\": \"2025-02-14\",\n    \"to_date\": \"2025-02-15\",\n    \"persons\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/reservations/8/",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"reservations",
+								"8",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

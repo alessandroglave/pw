@@ -1,0 +1,12 @@
+.hero {
+	@apply w-full flex items-end justify-start bg-cover bg-center min-h-[450px] relative;
+	&::before {
+		@apply absolute w-full h-full inset-0;
+		content: "";
+		background: linear-gradient(
+			180deg,
+			rgba(0, 0, 0, 0) 35%,
+			rgba(0, 0, 0, 0.5)
+		);
+	}
+}

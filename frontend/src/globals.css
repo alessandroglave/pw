@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--background: #ffffff;
+	--foreground: #171717;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+	color: var(--foreground);
+	background: var(--background);
+	width: 100%;
+	max-width: 100%;
+	/* font-family: Inter, sans-serif; */
+}
+
+h1,
+.h1 {
+	@apply text-3xl md:text-4xl font-semibold text-slate-800;
+}
+h2,
+.h2 {
+	@apply text-2.5xl md:text-3.5xl font-semibold text-slate-800 mb-3;
+}
+h3,
+.h3 {
+	@apply text-2xl font-medium text-slate-700;
+}
+h4,
+.h4 {
+	@apply text-1.5xl md:text-2.5xl font-medium text-slate-600;
+}
+h5,
+.h5 {
+	@apply text-xl lg:text-1.5xl font-medium text-slate-600;
+}
+
+p {
+	@apply text-slate-800 text-base lg:text-lg;
+}
