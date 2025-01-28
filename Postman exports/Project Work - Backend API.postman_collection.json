@@ -164,6 +164,56 @@
 					"response": []
 				},
 				{
+					"name": "Reset password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var body = pm.response.json();",
+									"pm.environment.set(\"BEARER_TOKEN\", body.data.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Semplice procedura di reset:\n// verrà inviata un'email contenente la nuova password dell'account\n// all'indirizzo fornito\n{\n\"email\": \"alezweb89@gmail.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BE_URL}}/auth/reset-password",
+							"host": [
+								"{{BE_URL}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Me",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true

@@ -1,4 +1,5 @@
 import datetime
+import secrets
 
 from fastapi import Depends
 from jose import ExpiredSignatureError, JWTError
@@ -51,6 +52,13 @@ class UserService:
             role,
             personal_info,
         )
+
+    def create_password(self):
+        # creates a random password of 16 characters
+        return secrets.token_urlsafe(16)
+
+    def reset_password(self, user: User, new_password: str):
+        return self._repository.reset_password(user, HashHelper.hash(new_password))
 
     def authenticate(self, user_input: UserSignupInput):
         user = self.get_by_email(user_input.email)
