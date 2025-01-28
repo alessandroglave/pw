@@ -20,6 +20,11 @@ class EnvironmentConfig(BaseSettings):
     REDIS_PORT: int
     REDIS_AUTH: Union[str, None]
     REDIS_DB: Union[int, None]
+    EMAIL_DRIVER: str
+    EMAIL_SENDER: str
+    AWS_SES_ACCESS_KEY: Union[str, None]
+    AWS_SES_SECRET_KEY: Union[str, None]
+    AWS_REGION: Union[str, None]
 
     """ 
         Pydantic configuration

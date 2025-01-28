@@ -4,6 +4,8 @@ Python [FastAPI](https://fastapi.tiangolo.com) project.
 
 This project uses **python v3.9.2**. and requires a **MySQL** database and a **Redis** database.
 
+It uses AWS Simple Email Service (SES) to send emails.
+
 ## Setup
 
 - Create virtual environment: `python -m venv .venv`

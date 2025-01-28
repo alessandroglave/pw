@@ -10,8 +10,7 @@ This project uses Nextjs's [_Pages Router_](https://nextjs.org/docs/pages).
 
 - Activate the correct NodeJS version, listed in `.nvmrc` file (eg. `nvm use 20.9.0`);
 - Install dependencies with `npm ci`;
-- Create .env file copying .env.example `cp .env.example .env`, customizing variables values with your settings;
-- Create an `.env` file (es. `mv .env.example .env`) and customize it with your settings.
+- Create .env file copying .env.example `cp .env.example .env`, customizing variables values with your settings.
 
 ## Development
 
