@@ -13,3 +13,5 @@ cryptography
 mysql-connector-python
 redis
 alembic
+boto3
+botocore
