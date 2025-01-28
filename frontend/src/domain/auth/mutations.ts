@@ -12,3 +12,9 @@ export async function signup(payload: {
 }) {
 	return client.post("/auth/signup", payload);
 }
+
+export async function resetPassword(payload: { email: string }) {
+	const res = await client.post("/auth/reset-password", payload);
+	if (!res || res?.status === "error") return null;
+	return true;
+}
