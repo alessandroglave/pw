@@ -1,5 +1,5 @@
 from functools import lru_cache
-from typing import Union
+from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -18,13 +18,13 @@ class EnvironmentConfig(BaseSettings):
     CREATE_STAFF_KEY: str
     REDIS_HOST: str
     REDIS_PORT: int
-    REDIS_AUTH: Union[str, None]
-    REDIS_DB: Union[int, None]
+    REDIS_AUTH: Optional[str]
+    REDIS_DB: Optional[int]
     EMAIL_DRIVER: str
     EMAIL_SENDER: str
-    AWS_SES_ACCESS_KEY: Union[str, None]
-    AWS_SES_SECRET_KEY: Union[str, None]
-    AWS_REGION: Union[str, None]
+    AWS_SES_ACCESS_KEY: Optional[str]
+    AWS_SES_SECRET_KEY: Optional[str]
+    AWS_REGION: Optional[str]
 
     """ 
         Pydantic configuration

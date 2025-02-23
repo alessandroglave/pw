@@ -10,7 +10,7 @@ export const baseNavbarItems: NavbarItem[] = [
 	{ label: "Prenota", href: "/ricerca-disponibilita" },
 ];
 
-export const notcustomerItems: NavbarItem[] = [
+export const notAuthenticatedItems: NavbarItem[] = [
 	...baseNavbarItems,
 	{
 		label: "Login",

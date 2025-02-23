@@ -1,4 +1,4 @@
-import { canManage } from "@/domain/auth/functions";
+import { isManager } from "@/domain/auth/functions";
 import preloadSession from "@/utils/preloadSession";
 import { GetServerSideProps } from "next";
 
@@ -16,7 +16,7 @@ export const BackofficeController: GetServerSideProps<
 		};
 	}
 
-	if (!canManage(session.user)) {
+	if (!isManager(session.user)) {
 		return {
 			redirect: {
 				destination: "/",

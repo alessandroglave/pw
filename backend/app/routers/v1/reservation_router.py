@@ -43,30 +43,6 @@ async def service_dep(
 ReservationServiceDep = Annotated[ReservationService, Depends(service_dep)]
 
 
-# Route to get user's reservations
-@router.get("/my", status_code=200)
-def get_user_reservations(
-    reservation_service: ReservationServiceDep,
-    logged_user: AuthenticationDep,
-):
-    reservations = reservation_service.get_user_reservations(logged_user.id)
-
-    return {"model": "Reservation", "data": reservations}
-
-
-# Restricted route, used by managers, to retrieve all reservations on a single day
-@router.get("/day", status_code=200)
-def get_by_day(
-    day: str,
-    reservation_service: ReservationServiceDep,
-    manager: ManagerDep,
-):
-    ReservationValidator.can_view_reservations(manager)
-    reservations = reservation_service.get_active_reservations(day)
-
-    return {"model": "Reservation", "data": reservations}
-
-
 # Route to let users to create a reservation
 @router.post("/", status_code=201)
 def book(
@@ -105,6 +81,30 @@ def book(
                 guest.id, room, start, end, book_input.persons
             )
             return {"model": "Reservation", "data": reservation}
+
+
+# Route to get user's reservations
+@router.get("/my", status_code=200)
+def get_user_reservations(
+    reservation_service: ReservationServiceDep,
+    logged_user: AuthenticationDep,
+):
+    reservations = reservation_service.get_user_reservations(logged_user.id)
+
+    return {"model": "Reservation", "data": reservations}
+
+
+# Restricted route, used by managers, to retrieve all reservations on a single day
+@router.get("/day", status_code=200)
+def get_by_day(
+    day: str,
+    reservation_service: ReservationServiceDep,
+    manager: ManagerDep,
+):
+    ReservationValidator.can_view_reservations(manager)
+    reservations = reservation_service.get_active_reservations(day)
+
+    return {"model": "Reservation", "data": reservations}
 
 
 # Restricted route: it creates a reservation with a guest not linked to a user account

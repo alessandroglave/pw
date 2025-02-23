@@ -10,7 +10,7 @@ from app.services.closing_service import ClosingService
 from app.validators import CommonValidator
 
 # router definition
-router = APIRouter(prefix="/closings", tags=["users"])
+router = APIRouter(prefix="/closings", tags=["closings"])
 
 
 # Setup local dependency injection
